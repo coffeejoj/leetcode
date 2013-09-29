@@ -1,0 +1,38 @@
+class Solution {
+ public:
+  string minWindow(string S, string T) {
+    int s_size = S.size();
+    int t_size = T.size();
+    int min_start = -1;
+    int min_end = s_size;
+    int j = -1;
+    int c = t_size;
+    vector<int> h(256, 0);//hash for T char counter
+    vector<bool> b(256, false);//bool for T char;
+    for( int i =0; i < t_size; i++) {
+      h[T[i]]++;
+      b[T[i]] = true;
+    }
+    for( int i =0; i < s_size; i++) {
+      if(b[S[i]] == false) continue;
+      if(h[S[i]]-- > 0) c--;
+      if(c == 0){
+        while(++j <= i) {
+          if(b[S[j]] == false) {
+            continue;
+          }
+          if((i - j) <(min_end - min_start)) {
+            min_end = i;
+            min_start = j;
+          }
+          if(++h[S[j]] > 0) {
+            c++;
+            break;
+          }
+        }
+      }
+    }
+    if(min_start == -1) return "";
+    else return S.substr(min_start, min_end-min_start+1);
+  }
+};

@@ -1,0 +1,18 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+ 
+int func(TreeNode *root)
+{
+    if(root==NULL) return 0;
+    return max(func(root->left), func(root->right))+1;
+}
+class Solution {
+public:
+    int maxDepth(TreeNode *root) {
+        return func(root);
+    }
+};

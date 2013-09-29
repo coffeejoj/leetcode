@@ -1,0 +1,22 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+int func(TreeNode *root)
+{
+    if(root==NULL) return 0;
+    if(root->left&&root->right) return min(func(root->left), func(root->right))+1;
+    if(root->left) return func(root->left)+1;
+    if(root->right) return func(root->right)+1;
+    return 1;
+}
+
+class Solution {
+public:
+    int minDepth(TreeNode *root) {
+        return func(root);
+    }
+};

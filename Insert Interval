@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<Interval> insert(vector<Interval> &intervals, Interval newInterval) {
+        vector<Interval> res; bool used=false;
+        for(int i=0;i<intervals.size();i++) {
+            if(!used && newInterval.end<intervals[i].start) {
+                res.push_back(newInterval);
+                used=true;
+            }
+            if(!used && !(newInterval.start>intervals[i].end || intervals[i].start>newInterval.end)) {
+                intervals[i].start=min(intervals[i].start, newInterval.start);
+                intervals[i].end=max(intervals[i].end, newInterval.end);
+                used=true;
+            }
+            if(!res.empty() && intervals[i].start<=res.back().end) {
+                res.back().end=max(res.back().end, intervals[i].end);
+            } else res.push_back(intervals[i]);
+        }
+        if(!used) res.push_back(newInterval);
+        return res;
+    }
+};
