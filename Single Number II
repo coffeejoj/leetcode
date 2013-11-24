@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        map<int, int> my_map;
+        for(int i=0;i<n;i++) {
+            if(my_map.find(A[i])!=my_map.end()) my_map[A[i]]++;
+            else my_map[A[i]]=1;
+        }
+        for(int i=0;i<n;i++) 
+            if(my_map[A[i]]!=3) return A[i];
+    }
+};
+
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        int res = 0;
+        for(int i=0;i<(int)sizeof(int)*CHAR_BIT;i++) {
+            int sum=0;
+            int mask=(1<<i);
+            for(int j=0;j<n;j++) {
+                if(A[j]&mask) sum++;
+            }
+            if (sum % 3) res|=mask;
+        }
+        return res;
+    }
+};

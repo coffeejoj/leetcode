@@ -1,0 +1,54 @@
+class Solution {
+public:
+    void getLadder(vector<vector<string> > &res, unordered_map<string, vector<string> >&pre_map, vector<string> &v, string tmp)
+    {
+        if(pre_map[tmp].size()==1 &&pre_map[tmp][0]==tmp) {
+            res.push_back(vector<string>(v.rbegin(), v.rend()));
+        } else {
+            for(int i=0;i<pre_map[tmp].size();i++) {
+                v.push_back(pre_map[tmp][i]);
+                getLadder(res, pre_map, v, pre_map[tmp][i]);
+                v.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        vector<vector<string> >res;
+        queue<pair<string, int> > que;
+        unordered_map<string, vector<string> > pre_map;
+        unordered_map<string, int> pre_len;
+        que.push(make_pair(start, 1));
+        pre_map[start].push_back(start);
+        pre_len[start]=1;
+        int ladder_len = INT_MAX;
+        
+        while(!que.empty()) {
+            pair<string, int> cur=que.front();
+            que.pop();
+            if (cur.second>=ladder_len) break;
+            for(int i=0;i<cur.first.length();i++) {
+                string tmp=cur.first;
+                for(char c='a';c<='z';c++) {
+                    tmp[i]=c;
+                    if (tmp==cur.first) continue;
+                    if (tmp==end) {
+                        ladder_len=cur.second+1;
+                        vector<string> v;
+                        v.push_back(end); v.push_back(cur.first);
+                        getLadder(res, pre_map, v, cur.first);
+                    }
+                    else if (dict.find(tmp)==dict.end()) continue;
+                    else if (pre_map.find(tmp)==pre_map.end()) {
+                        pre_map[tmp].push_back(cur.first);
+                        pre_len[tmp]=cur.second+1;
+                        que.push(make_pair(tmp, cur.second+1));
+                    } else if (pre_len[tmp]==cur.second+1) {
+                        pre_map[tmp].push_back(cur.first);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};

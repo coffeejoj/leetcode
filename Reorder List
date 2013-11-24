@@ -1,0 +1,41 @@
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+    void reorderList(ListNode *head) {
+        ListNode *t1=head;
+        ListNode *t2=head;
+        ListNode *res=head;
+        ListNode *pre=new ListNode(0);
+        pre->next=head;
+        while(t2) {
+            t1=t1->next;
+            pre=pre->next;
+            if(t2->next) t2=t2->next->next;
+            else break;
+        }
+        pre->next=NULL;
+        if (t1==NULL) return;
+        ListNode *t3=t1->next;
+        t1->next=NULL;
+        while(t3) {
+            ListNode *t4=t3->next;
+            t3->next=t1;
+            t1=t3;
+            t3=t4;
+        }
+        while(t1) {
+            ListNode *tmp=head->next;
+            head->next=t1;
+            ListNode *tmp1=t1->next;
+            t1->next=tmp;
+            t1=tmp1;
+            head=tmp;
+        }
+        head=res;
+    }
+};

@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxPoints(vector<Point> &points) {
+        if(points.size()<2) return points.size(); 
+        int res=0;
+        map<string, set<int> >my_map;
+        for(int i=0;i<points.size()-1;i++) {
+            for(int j=i+1;j<points.size();j++) {
+                string hash;
+                if (points[i].x==points[j].x) {
+                    hash=std::to_string(points[i].x);
+                } else {
+                    double a=(points[i].y-points[j].y)/(points[j].x-points[i].x);
+                    double b=(points[j].x*points[i].y-points[i].x*points[j].y)/(points[j].x-points[i].x);
+                    hash=std::to_string(a)+std::to_string(b);
+                }
+                my_map[hash].insert(i);
+                my_map[hash].insert(j);
+                if ((my_map[hash]).size()>res) res=(my_map[hash]).size();
+            }
+        }
+        return res;
+    }
+};

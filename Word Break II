@@ -1,0 +1,31 @@
+vector<string> func(string s, vector<vector<int> >&dp, int i)
+{
+    vector<string> res;
+    for(int j=0;j<dp[i].size();j++) {
+        if(dp[i][j]==0) res.push_back(s.substr(0,i));
+        else {
+            string last=s.substr(dp[i][j], i-dp[i][j]);
+            vector<string> sub=func(s, dp, dp[i][j]);
+            for(int k=0;k<sub.size();k++) {
+                res.push_back(sub[k]+" "+last);
+            }
+        }
+    }
+    return res;
+}
+
+class Solution {
+public:
+    vector<string> wordBreak(string s, unordered_set<string> &dict) {
+        int len=s.length();
+        vector<vector<int> > dp(len+1, vector<int>());
+        dp[0].push_back(0);
+        for(int i=1;i<=len;i++) {
+            for(int j=1;j<=i;j++) {
+                if (dp[i-j].size() && dict.find(s.substr(i-j, j))!=dict.end())
+                    dp[i].push_back(i-j);
+            }
+        }
+        return func(s, dp , len);
+    }
+};

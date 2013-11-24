@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int searchInsert(int A[], int n, int target) {
+        int l=0; int r=n-1;
+        while(l<=r) {
+            int m=(l+r)/2;
+            if (A[m]==target) {
+                return m;
+            } else if (A[m]<target) l=m+1;
+            else r=m-1;
+        }
+        return l;
+    }
+};

@@ -1,0 +1,32 @@
+struct UndirectedGraphNode {
+    int label;
+    vector<UndirectedGraphNode *> neighbors;
+    UndirectedGraphNode(int x) : label(x) {};
+};
+ 
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if (node ==NULL) return NULL;
+        queue<UndirectedGraphNode *> que;
+        map<UndirectedGraphNode *, UndirectedGraphNode *> my_map;
+        UndirectedGraphNode *res=new UndirectedGraphNode(node->label);
+        my_map[node]=res;
+        que.push(node);
+        while(!que.empty()) {
+            UndirectedGraphNode *cur=que.front();
+            que.pop();
+            for(int i=0;i<cur->neighbors.size();i++) {
+                if (my_map.find(cur->neighbors[i])==my_map.end()) {
+                    UndirectedGraphNode *new_node = new UndirectedGraphNode(cur->neighbors[i]->label);
+                    my_map[cur]->neighbors.push_back(new_node);
+                    my_map[cur->neighbors[i]]=new_node;
+                    que.push(cur->neighbors[i]);
+                } else {
+                    my_map[cur]->neighbors.push_back(my_map[cur->neighbors[i]]);
+                }
+            }
+        }
+        return res;
+    }
+};

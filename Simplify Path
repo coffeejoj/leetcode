@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        deque<string> deq;
+        for(int i=0;i<path.length();) {
+            if (path[i]=='/') i++;
+            else if (path.substr(i,3)=="../" || path.substr(i)=="..") {
+                if (!deq.empty()) deq.pop_back();
+                i+=3;
+            } else if (path.substr(i,2)=="./" || path.substr(i)==".") {
+                i+=2;
+            } else {
+                int p=path.find('/', i);
+                deq.push_back(path.substr(i, p-i));
+                i=p;
+            }
+        }
+        string res;
+        if (deq.empty()) return "/";
+        while(!deq.empty()) {
+            res+="/"+deq.front();
+            deq.pop_front();
+        }
+        return res;
+    }
+};

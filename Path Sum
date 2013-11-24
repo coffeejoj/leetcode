@@ -1,0 +1,22 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+bool func(TreeNode *cur, int sum)
+{
+    if(cur==NULL) return false;
+    if (!cur->left && !cur->right) {
+        return (sum==cur->val);
+    }
+    return (func(cur->left, sum-cur->val) || func(cur->right, sum-cur->val));
+}
+
+class Solution {
+public:
+    bool hasPathSum(TreeNode *root, int sum) {
+        return func(root, sum);
+    }
+};

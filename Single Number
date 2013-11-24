@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        map<int, int> my_map;
+        for(int i=0;i<n;i++) {
+            if(my_map.find(A[i])!=my_map.end()) my_map[A[i]]++;
+            else my_map[A[i]]=1;
+        }
+        for(int i=0;i<n;i++) 
+            if(my_map[A[i]]==1) return A[i];
+    }
+};
+
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        int res = 0;
+        for (int i = 0; i < n; i++)
+            res ^= A[i];
+        return res;
+    }
+};

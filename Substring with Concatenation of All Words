@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> findSubstring(string S, vector<string> &L) {
+        map<string, int> ToFind;
+        map<string, int> HasFound;
+        vector<int>  res;
+        for(int i = 0;i < L.size();i++) ToFind[L[i]]++;
+        int N=L.size();
+        int M=L[0].size();
+        for(int i = 0;i <= (int)S.size()-N*M;i++) {
+            int j;
+            HasFound.clear();
+            for( j = 0; j < N; j++) {
+                int k=i + j*M;
+                string t=S.substr(k, M);
+                if (ToFind.find(t) == ToFind.end()) break;
+                HasFound[t]++;
+                if(HasFound[t] > ToFind[t]) break;
+            }
+            if (j == N) res.push_back(i);
+        }
+        return res;
+    }
+};

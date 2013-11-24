@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minCut(string s) {
+        if (s.empty()) return 0;
+        int n=s.length();
+        vector<vector<bool> > save(n, vector<bool>(n, 0));
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<=i;j++) {
+                if (j==i) save[j][i]=1;
+                else if(j+1==i) save[j][i]=(s[j]==s[i]);
+                else save[j][i]=(s[j]==s[i] && save[j+1][i-1]);
+            }
+        }
+        vector<int> m(n+1, 0);
+        m[0]=-1;
+        for(int i=1;i<=n;i++) {
+            m[i]=m[i-1]+1;
+            for(int j=i-2;j>=0;j--) {
+                if(save[j][i-1]) m[i]=min(m[i], m[j]+1);
+            }
+        }
+        return m[n];
+    }
+};

@@ -1,0 +1,22 @@
+void func(TreeNode *cur, int save, int &res)
+{
+    if(cur==NULL) {
+        return;
+    }
+    if (cur->left==NULL && cur->right==NULL) {
+        res+=save*10+cur->val;
+        return;
+    }
+    func(cur->left, save*10+cur->val, res);
+    func(cur->right, save*10+cur->val, res);
+}
+
+class Solution {
+public:
+    int sumNumbers(TreeNode *root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int res=0;
+        func(root, 0, res);
+        return res;
+    }
+};

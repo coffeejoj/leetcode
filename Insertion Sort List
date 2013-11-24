@@ -1,0 +1,33 @@
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+ 
+class Solution {
+public:
+    ListNode *insertionSortList(ListNode *head) {
+        ListNode *res=new ListNode(INT_MIN);
+        while(head!=NULL) {
+            ListNode *cur=res;
+            while (cur) {
+                if (cur->next) {
+                    if (head->val<=cur->next->val) {
+                        ListNode *t=head;
+                        head=head->next;
+                        t->next=cur->next;
+                        cur->next=t;
+                        break;
+                    } else cur=cur->next;
+                } else {
+                    ListNode *t=head;
+                    head=head->next;
+                    t->next=cur->next;
+                    cur->next=t;
+                    break;
+                }
+            }
+        }
+        return res->next;
+    }
+};

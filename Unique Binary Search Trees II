@@ -1,0 +1,36 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+vector<TreeNode *> func(int l, int r)
+{
+    vector<TreeNode *> res;
+    if(l>r) {
+        TreeNode *cur=NULL;
+        res.push_back(cur);
+    }
+    for(int i=l;i<=r;i++) {
+        vector<TreeNode *> left=func(l, i-1);
+        vector<TreeNode *> right=func(i+1, r);
+        for(int j=0;j<left.size();j++) {
+            for(int k=0;k<right.size();k++) {
+                TreeNode *cur=new TreeNode(i);
+                cur->left=left[j];
+                cur->right=right[k];
+                res.push_back(cur);
+            }
+        }
+    }
+    return res;
+}
+
+class Solution {
+public:
+    vector<TreeNode *> generateTrees(int n) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        return func(1,n);
+    }
+};

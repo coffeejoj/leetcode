@@ -1,0 +1,22 @@
+void func(TreeNode *cur, TreeNode *&pre, TreeNode *&first, TreeNode *&second)
+{
+    if (cur==NULL) return;
+    func(cur->left, pre, first, second);
+    if (pre && pre->val>cur->val) {
+        if (first==NULL) first=pre;
+        second=cur;
+    }
+    pre=cur;
+    func(cur->right, pre, first, second);
+}
+
+class Solution {
+public:
+    void recoverTree(TreeNode *root) {
+        TreeNode *pre=NULL; TreeNode *first=NULL; TreeNode *second=NULL;
+        func(root, pre, first, second);
+        int t=first->val;
+        first->val=second->val;
+        second->val=t;
+    }
+};

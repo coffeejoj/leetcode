@@ -1,0 +1,46 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+void func(TreeNode *cur, vector<int> &res)
+{
+    if(cur==NULL) return;
+    func(cur->left, res);
+    func(cur->right, res);
+    res.push_back(cur->val);
+}
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> res;
+        func(root, res);
+        return res;
+    }
+};
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> res;
+        stack<TreeNode *> st;
+        stack<int> output;
+        st.push(root);
+        while(!st.empty()) {
+            TreeNode *t = st.top();
+            st.pop();
+            if (t==NULL) continue;
+            output.push(t->val);
+            st.push(t->left);
+            st.push(t->right);
+        }
+        while(!output.empty()) {
+            res.push_back(output.top());
+            output.pop();
+        }
+        return res;
+    }
+};

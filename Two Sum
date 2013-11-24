@@ -1,0 +1,14 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int> &numbers, int target) {
+        map<int, int> my_map;
+        for(int i=0;i<numbers.size();i++) {
+            if(my_map.find(target-numbers[i])!=my_map.end()) {
+                vector<int> res;
+                res.push_back(my_map[target-numbers[i]]+1);
+                res.push_back(i+1);
+                return res;
+            } else my_map[numbers[i]]=i;
+        }
+    }
+};

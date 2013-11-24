@@ -8,13 +8,9 @@ public:
             int h=min(height[l], height[r]);
             if (h*(r-l)>res) res=h*(r-l);
             if (height[l]<height[r]) {
-                int cur=height[l];
-                while(l+1<height.size()&&height[l+1]<=cur)l++;
-                if(height[l]<=cur) l++;
+                l++;
             } else {
-                int cur=height[r];
-                while(r-1>=0&&height[r-1]<=cur)r--;
-                if(height[r]<=cur) r--;
+		r--;
             }
         }
         return res;

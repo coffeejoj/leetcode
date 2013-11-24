@@ -1,0 +1,62 @@
+vector<string> func(string cur, unordered_set<string> &dict)
+{
+    vector<string> res;
+    for(int i=0;i<cur.length();i++) {
+        string tmp(cur);
+        for(char c='a'; c<='z';c++) {
+            tmp[i]=c;
+            if(dict.find(tmp)!=dict.end()) {
+                res.push_back(tmp);
+                dict.erase(tmp);
+            }
+        }
+    }
+    return res;
+}
+
+class Solution {
+public:
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+        dict.insert(end);
+        queue<pair<string, int> > que;
+        que.push(make_pair(start, 1));
+        while(!que.empty()) {
+            pair<string, int> cur=que.front();
+            que.pop();
+            if (cur.first==end) return cur.second; 
+            vector<string> nei=func(cur.first, dict);
+            for(int i=0;i<nei.size();i++) {
+                que.push(make_pair(nei[i], cur.second+1));
+            }
+        }
+        return 0;
+    }
+};
+
+class Solution {
+public:
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+        queue<pair<string, int> > que;
+        que.push(make_pair(start, 1));
+        while(!que.empty()) {
+            pair<string, int> cur=que.front();
+            que.pop();
+            if (cur.first==end) {
+                return cur.second;
+            } else {
+                for(int i=0;i<cur.first.length();i++) {
+                    string tmp=cur.first;
+                    for(char c='a';c<='z';c++) {
+                        tmp[i]=c;
+                        if (tmp==cur.first || (dict.find(tmp)==dict.end())) continue;
+                        else {
+                            que.push(make_pair(tmp, cur.second+1));
+                            dict.erase(tmp);
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};

@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int sqrt(int x) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int l=0;
+        int r=x;
+        while(l<=r) {
+            long long m=l+(r-l)/2;
+            long long t=m*m;
+            if(t==x) return m;
+            else if(t>x) r=m-1;
+            else l=m+1;
+        }
+        return r;
+    }
+};

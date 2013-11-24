@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        vector<int> save(num1.length()+num2.length(), 0);
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+        for(int i=0;i<num1.length();i++) {
+            for(int j=0;j<num2.length();j++) {
+                save[i+j]+=(num1[i]-'0')*(num2[j]-'0');
+            }
+        }
+        int tmp=0;
+        string res;
+        for(int i=0;i<save.size();i++) {
+            tmp+=save[i];
+            res.push_back(tmp%10+'0');
+            tmp/=10;
+        }
+        while(tmp) {
+            res.push_back(tmp%10+'0');
+            tmp/=10;
+        }
+        while(res[res.size()-1]=='0') res.erase(res.size()-1);
+        if (res.length()==0) res.push_back('0');
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};

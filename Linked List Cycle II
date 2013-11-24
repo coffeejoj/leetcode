@@ -1,0 +1,26 @@
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+ 
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *step1=head;
+        ListNode *step2=head;
+        while(step1 && step2 && step2->next) {
+            step1=step1->next;
+            step2=step2->next->next;
+            if(step1 !=NULL && step1==step2) {
+                ListNode *step3=head;
+                while (step1!=step3) {
+                    step1=step1->next;
+                    step3=step3->next;
+                }
+                return step1;
+            }
+        }
+        return NULL;
+    }
+};

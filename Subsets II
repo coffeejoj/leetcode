@@ -1,0 +1,26 @@
+void func(int index, vector<int> &S, vector<int> &save, vector<vector<int> >&res)
+{
+    res.push_back(save);
+    if(index==S.size()) return;
+    for(int i=index;i<S.size();i++) {
+        save.push_back(S[i]);
+        func(i+1, S, save, res);
+        save.pop_back();
+        while(i+1<S.size()&&S[i]==S[i+1])i++;
+    }
+}
+
+class Solution {
+public:
+    vector<vector<int> > subsetsWithDup(vector<int> &S) {
+        vector<vector<int> >res;
+        vector<int> save;
+        if (S.size()==0) {
+            res.push_back(save);
+            return res;
+        }
+        sort(S.begin(), S.end());
+        func(0, S, save, res);
+        return res;
+    }
+};

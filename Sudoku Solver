@@ -1,0 +1,67 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char> > &board) {
+        int M = board.size();
+        if (M == 0) return false;
+        int N = board[0].size();
+        if (N == 0) return false;
+        if (M % 3 != 0 || N % 3 != 0) return false;
+
+        bool visited[10];
+        // check row
+        for (int i = 0; i < M; i++) {
+            memset(visited, false, sizeof(bool) * 10);
+            for (int j = 0; j < N; j++) {
+                if (board[i][j] != '.') {
+                    int k = board[i][j] - '0';
+                    if (visited[k]) return false;
+                    visited[k] = true;
+                }
+            }
+        }
+        // check coloumn
+        for (int j = 0; j < N; j++) {
+            memset(visited, false, sizeof(bool) * 10);
+            for (int i = 0; i < M; i++) {
+                if (board[i][j] != '.') {
+                    int k = board[i][j] - '0';
+                    if (visited[k]) return false;
+                    visited[k] = true;
+                }
+            }
+        }
+        // check block
+        for (int i = 0; i < M/3; i++) {
+            for (int j = 0; j < N/3; j++) {
+                memset(visited, false, sizeof(bool) * 10);
+                for(int i1=0;i1<3;i1++) {
+                    for(int j1=0;j1<3;j1++) {
+                        if (board[i*3+i1][j*3+j1] != '.') {
+                            int k=board[i*3+i1][j*3+j1]-'0';
+                            if (visited[k]) return false;
+                            visited[k] = true;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    bool func(int index, vector<vector<char> > &board) {
+        int M=board.size(); int N=board[0].size();
+        if (index==M*N) return true;
+        if (board[index/M][index%M] != '.') return func(index+1, board);
+        else {
+            for(char c='1';c<='9';c++) {
+                board[index/M][index%M]=c;
+                if (isValidSudoku(board) && func(index+1, board)) return true;
+                board[index/M][index%M]='.';
+            }
+        }
+        return false;
+    }
+    void solveSudoku(vector<vector<char> > &board) {
+        func(0, board);
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+public:
+    ListNode *partition(ListNode *head, int x) {
+        ListNode *pre=new ListNode(0);
+        ListNode *post=new ListNode(0);
+        ListNode *pre_h=pre;
+        ListNode *post_h=post;
+        while(head) {
+            if (head->val<x) {
+                pre->next=head;
+                pre=pre->next;
+            } else {
+                post->next=head;
+                post=post->next;
+            }
+            head=head->next;
+        }
+        pre->next=post_h->next;
+        post->next=NULL;
+        return pre_h->next;
+    }
+};

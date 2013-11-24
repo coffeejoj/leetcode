@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int n=triangle.size();
+        if (n==0) return 0;
+        int res=INT_MAX;
+        vector<int> save(n, 0);
+        save[0]=triangle[0][0];
+        for(int i=1;i<n;i++) {
+            for(int j=i;j>=0;j--) {
+                if(j==0) save[j]=save[j]+triangle[i][j];
+                else if(j==i) save[j]=save[j-1]+triangle[i][j];
+                else save[j]=min(save[j-1], save[j]) +triangle[i][j];
+            }
+        }
+        for(int i=0;i<n;i++) {
+            res=min(res, save[i]);
+        }
+        return res;
+    }
+};

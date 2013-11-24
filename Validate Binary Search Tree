@@ -1,0 +1,20 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+bool func(TreeNode *cur, int l, int r)
+{
+    if(cur==NULL) return true;
+    if(cur->val<=l|| cur->val>=r) return false;
+    return func(cur->left,l, cur->val) && func(cur->right, cur->val, r);
+}
+
+class Solution {
+public:
+    bool isValidBST(TreeNode *root) {
+        return func(root, INT_MIN, INT_MAX);
+    }
+};

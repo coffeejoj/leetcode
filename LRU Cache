@@ -1,0 +1,38 @@
+class LRUCache{
+public:
+    list<pair<int, int> > list_;
+    map<int, list<pair<int, int> >::iterator> map_;
+    int capacity_;
+    int size_;
+    LRUCache(int capacity) {
+        capacity_ = capacity;
+        size_ = 0;
+    }
+    
+    int get(int key) {
+        if (map_.find(key) != map_.end()) {
+            list<pair<int, int> >::iterator itr = map_[key];
+            list_.push_front(*itr);
+            list_.erase(itr);
+            itr = list_.begin();
+            map_[key]=itr;
+            return itr->second;
+        } else return -1;
+    }
+    
+    void set(int key, int value) {
+        if (map_.find(key) != map_.end()) {
+            list<pair<int, int> >::iterator itr = map_[key];
+            list_.erase(itr);
+            map_.erase(key);
+            size_--;
+        } else if (size_ == capacity_) {
+            map_.erase(list_.back().first);
+            list_.pop_back();
+            size_ --;
+        }
+        list_.push_front(make_pair(key, value));
+        map_[key]=list_.begin();
+        size_++;
+    }
+};
