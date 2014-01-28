@@ -1,0 +1,37 @@
+//============================================================================
+// Given an integer, convert it to a roman numeral.
+//
+// Input is guaranteed to be within the range from 1 to 3999.
+//============================================================================
+
+string func(int n, string one, string five, string ten)
+{
+    switch(n) {
+      case 0: return "";
+      case 1: return one;
+      case 2: return one+one;
+      case 3: return one+one+one;
+      case 4: return one+five;
+      case 5: return five;
+      case 6: return five+one;
+      case 7: return five+one+one;
+      case 8: return five+one+one+one;
+      case 9: return one+ten;
+    }
+}
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        string result;
+        int n = num/1000;
+        result+= func(n, "M", "", "");
+        n = (num/100)%10;
+        result+= func(n, "C", "D", "M");
+        n = (num/10)%10;
+        result+= func(n, "X", "L", "C");
+        n = num%10;
+        result+= func(n, "I", "V", "X");
+        return result;
+    }
+};

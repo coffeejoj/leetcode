@@ -1,3 +1,11 @@
+//============================================================================
+// Insertion Sort List
+// Sort a linked list using insertion sort.
+//
+// Complexity:
+// O(n^2) time
+//============================================================================
+
 struct ListNode {
     int val;
     ListNode *next;
